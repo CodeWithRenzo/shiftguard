@@ -1,0 +1,17 @@
+# Sensitive configuration — must NEVER be pushed
+app/config.php
+
+# Composer dependencies (installed separately on each machine/server)
+/vendor/
+
+# Logs
+*.log
+
+# OS noise
+.DS_Store
+Thumbs.db
+
+# IDE
+.idea/
+.vscode/
+*.sublime-*

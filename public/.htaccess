@@ -1,0 +1,30 @@
+RewriteEngine On
+
+# Serve existing files/dirs directly
+RewriteCond %{REQUEST_FILENAME} -f [OR]
+RewriteCond %{REQUEST_FILENAME} -d
+RewriteRule ^ - [L]
+
+# Everything else goes to index.php
+RewriteRule ^ index.php [QSA,L]
+
+# Security: deny hidden files
+<FilesMatch "^\.">
+    Require all denied
+</FilesMatch>
+
+# Correct MIME type for the service worker
+<Files "sw.js">
+    ForceType application/javascript
+    Header set Service-Worker-Allowed "/"
+</Files>
+
+# Cache static assets aggressively, but never the SW or HTML
+<FilesMatch "\.(css|js|png|jpg|svg|woff2?)$">
+    Header set Cache-Control "public, max-age=31536000, immutable"
+</FilesMatch>
+<FilesMatch "\.(php|json)$">
+    Header set Cache-Control "no-store"
+</FilesMatch>
+
+Options -Indexes
